@@ -2,11 +2,13 @@ import pdb
 import os
 from datetime import datetime
 from optparse import OptionParser
+import ConfigParser
 
 try:
     import gspread
 except ImportError:
     print "gspread lib could not be found, writing to google docs disabled."    
+
 
 """
 31/04/2013 Sjoerd
@@ -20,18 +22,22 @@ with one keystroke. Write to Google docs directly.
 #====== main automation ========================================================
 
 
+def get_now_string():
+    return datetime.now().strftime("%Y%m%d %H:%M:%S")    
+    
+
 def write_msg_to_file(msg,filename):
     """ Write "datetime - message" to new line of file
 
     """    
     f = open(filename,"a+")    
     try:
-        now = datetime.now().strftime("%Y%m%d %H:%M:%S")    
-        f.write('%s - "%s"\n'%(now, msg))        
+        nowstr = get_now_string()        
+        f.write('%s - "%s"\n'%(nowstr, msg)        ) 
     finally:
         f.close()
         
-    
+
     
 def init_optparse():
     """ read options from commandline
@@ -44,6 +50,7 @@ def init_optparse():
                       help='Write message to this destination. Choices: ["file","googledoc"]')
 
     return parser
+
     
 
 def mainloop():
@@ -64,11 +71,32 @@ def mainloop():
             raise Exception("gspread lib could not be imported. Writing to google doc has"
                             "been disabled")
 
+
+        config = ConfigParser.RawConfigParser()
+        config.read('write_to_log.cfg')
+        google_spreadsheet_name = config.get('google_spreadsheet','google_spreadsheet_name')
+        google_id = config.get('google_spreadsheet','google_id')
+        google_password = config.get('google_spreadsheet','google_password')
         
-        raise NotImplementedError ("make this!")
+        
+        # Login with your Google account
+        gc = gspread.login(google_id,google_password)
 
+        # Open a worksheet from spreadsheet with one shot
+        wks = gc.open(google_spreadsheet_name).sheet1
 
-    
+        highest_row =  len(wks.col_values(1))
+
+        nowstr = get_now_string()
+        msg = args[0]
+        cell_list = wks.range('A%s:B%s'%(highest_row+1,highest_row+1))
+        cell_list[0].value = nowstr
+        cell_list[1].value = msg
+        
+        wks.update_cells(cell_list)
+        
+
+pdb.set_trace()
 mainloop()
     
     
