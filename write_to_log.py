@@ -19,9 +19,6 @@ with one keystroke. Write to Google docs directly.
 """
 
 
-#====== main automation ========================================================
-
-
 def get_now_string():
     return datetime.now().strftime("%Y%m%d %H:%M:%S")    
     
@@ -38,7 +35,6 @@ def write_msg_to_file(msg,filename):
         f.close()
         
 
-    
 def init_optparse():
     """ read options from commandline
     """
@@ -53,7 +49,7 @@ def init_optparse():
 
     
 
-def mainloop():
+def mainloop(configfile):
     parser = init_optparse()
     (options, args) = parser.parse_args()
     
@@ -73,7 +69,7 @@ def mainloop():
 
 
         config = ConfigParser.RawConfigParser()
-        config.read('write_to_log.cfg')
+        config.read(configfile)
         google_spreadsheet_name = config.get('google_spreadsheet','google_spreadsheet_name')
         google_id = config.get('google_spreadsheet','google_id')
         google_password = config.get('google_spreadsheet','google_password')
@@ -96,8 +92,8 @@ def mainloop():
         wks.update_cells(cell_list)
         
 
-pdb.set_trace()
-mainloop()
+configfile = "D:/code/scripts/timekeeping/timekeeping/write_to_log.cfg"
+mainloop(configfile)
     
     
 
