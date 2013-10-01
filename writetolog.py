@@ -3,6 +3,11 @@ import os
 from datetime import datetime
 from optparse import OptionParser
 
+try:
+    import gspread
+except ImportError:
+    print "gspread lib could not be found, writing to google docs disabled."    
+
 """
 31/04/2013 Sjoerd
 
@@ -10,9 +15,6 @@ Write datetime + logmessage. To be used with launchy so I can write log messages
 with one keystroke. Write to Google docs directly.
 
 """
-
-
-
 
 
 #====== main automation ========================================================
@@ -51,11 +53,18 @@ def mainloop():
     if len(args) != 1:
         print ("Expected 1 argument: the message to write. instead found %d.\n" %len(args))
         parser.print_help()
-    
+
     if options.destination == "file":
         write_msg_to_file(args[0],"timing_test.log")
 
     elif options.destination == "googledoc":
+        try:
+            gspread
+        except NameError:
+            raise Exception("gspread lib could not be imported. Writing to google doc has"
+                            "been disabled")
+
+        
         raise NotImplementedError ("make this!")
 
 
