@@ -67,9 +67,12 @@ def mainloop(configfile):
             raise Exception("gspread lib could not be imported. Writing to google doc has"
                             "been disabled")
 
-
-        config = ConfigParser.RawConfigParser()
+        if not os.path.exists(configfile):
+            raise Exception("Configfile could not be found at %s" %configfile)
+            
+        config = ConfigParser.RawConfigParser()        
         config.read(configfile)
+        
         google_spreadsheet_name = config.get('google_spreadsheet','google_spreadsheet_name')
         google_id = config.get('google_spreadsheet','google_id')
         google_password = config.get('google_spreadsheet','google_password')
@@ -92,7 +95,7 @@ def mainloop(configfile):
         wks.update_cells(cell_list)
         
 
-configfile = "D:/code/scripts/timekeeping/timekeeping/write_to_log.cfg"
+configfile = r"C:\code\scripts\timekeeping\write_to_log.cfg"
 mainloop(configfile)
     
     
