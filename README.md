@@ -3,24 +3,22 @@ timekeeping
 Write messages to a log with one keystroke.
 
 # Requirements
-## python packages 
-* gspread 0.1.0 for writing to google docs
-
-## programs
+* gspread 0.1.0 python package for writing to google docs
 * launchy (http://www.launchy.net/) launch manager, to run the python script which does the actual logging in a single keystroke. You can use any launch manager of method you want of course. Launchy works for me.
 
 # setup 
 ## for writing to local file
 Writing to log file works out of the box:
-> python write_to_log.py "a message"
+    python write_to_log.py "a message"
+
 Or to write a message and set the time to 30 minutes ago
-> python write_to_log.py "a message" -t -30
+    python write_to_log.py "a message" -t -30
 
 # for writing to google docs
 * install gspread using 'pip install gspread'
 * edit write_to_log.cfg to contain your google credentials and spreadsheet
 * then call it like this:
-> python write_to_log.py "a message" -d googledoc
+    python write_to_log.py "a message" -d googledoc
 
 # setup in launchy
 * download and install launchy (http://www.launchy.net/download.php)
