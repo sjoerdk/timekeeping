@@ -10,11 +10,11 @@ Write messages to a log with one keystroke.
 ## Write to local file
 Writing to log file works out of the box:
 
-```python write_to_log.py "a message"```
+   ```python write_to_log.py "a message"```
 
 Or to write a message and set the time to 30 minutes ago:
 
-```python write_to_log.py "a message" -t -30```
+   ```python write_to_log.py "a message" -t -30```
 
 ## Write to google docs
 * install gspread using 'pip install gspread'
