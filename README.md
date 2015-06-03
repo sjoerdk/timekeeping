@@ -9,7 +9,6 @@ Write messages to a log with one keystroke.
 ## Writing to google spreadsheet
 * gspread 0.2.5 python package for writing to google docs
 * oauth2client 1.4.11 and PyOpenSSL for authenticating with google
-* Google Oauth2 signed credentials. See http://gspread.readthedocs.org/en/latest/oauth2.html#using-signed-credentials on how to generate these
 
 ## For added convenience
 * launchy (http://www.launchy.net/) launch manager, to run the python script which does the actual logging in a single keystroke. You can use any launch manager or method you want of course. Launchy works for me
@@ -25,7 +24,8 @@ Or to write a message and set the time to 30 minutes ago:
    ```python write_to_log.py "a message" -t -30```
 
 ## Write to google docs
-* install gspread using 'pip install gspread'
+* install required libraries using 'pip install gspread oauth2client PyOpenSSL'
+* get Google Oauth2 signed credentials. See http://gspread.readthedocs.org/en/latest/oauth2.html#using-signed-credentials on how to generate these. You will have .json file in the end
 * edit write_to_log.cfg to contain your google credentials and spreadsheet
 * then call it like this:
 
