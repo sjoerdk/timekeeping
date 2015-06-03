@@ -104,9 +104,8 @@ class GoogleDocLogWriter(LogWriter):
         config = ConfigParser.RawConfigParser()
         config.read(configfile)
         
-        self.google_spreadsheet_name = config.get('google_spreadsheet','google_spreadsheet_name')
-        self.google_id = config.get('google_spreadsheet','google_id')
-        self.google_password = config.get('google_spreadsheet','google_password')
+        self.google_spreadsheet_name = config.get('google_spreadsheet','google_spreadsheet_name')        
+        self.google_credential_file = config.get('google_spreadsheet','google_credential_file')
 
         self.google_timestring_column = self.get_config_or_default(config,'google_timestring_column',"A")
         self.google_message_column = self.get_config_or_default(config,'google_message_column',"B")
@@ -128,7 +127,7 @@ class GoogleDocLogWriter(LogWriter):
 
     def open_google_doc(self):                
         # Login with your Google account
-        json_key = json.load(open('timekeeping-2d5fd018b45d.json'))
+        json_key = json.load(open(self.google_credential_file))
         scope = ['https://spreadsheets.google.com/feeds']
 
         credentials = SignedJwtAssertionCredentials(json_key['client_email'], json_key['private_key'], scope)
