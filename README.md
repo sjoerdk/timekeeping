@@ -2,9 +2,17 @@ timekeeping
 ===========
 Write messages to a log with one keystroke.
 
-# Requirements
-* gspread 0.1.0 python package for writing to google docs
-* launchy (http://www.launchy.net/) launch manager, to run the python script which does the actual logging in a single keystroke. You can use any launch manager or method you want of course. Launchy works for me.
+# Requirements 
+## Writing to local file
+* Python 2.7
+
+## Writing to google spreadsheet
+* gspread 0.2.5 python package for writing to google docs
+* oauth2client 1.4.11 and PyOpenSSL for authenticating with google
+* Google Oauth2 signed credentials. See http://gspread.readthedocs.org/en/latest/oauth2.html#using-signed-credentials on how to generate these
+
+## For added convenience
+* launchy (http://www.launchy.net/) launch manager, to run the python script which does the actual logging in a single keystroke. You can use any launch manager or method you want of course. Launchy works for me
 
 # Setup 
 ## Write to local file

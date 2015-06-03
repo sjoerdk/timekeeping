@@ -1,9 +1,10 @@
 import pdb
 import os
 import ConfigParser
+import json
 from datetime import datetime,timedelta
 from optparse import OptionParser
-
+from oauth2client.client import SignedJwtAssertionCredentials
 
 
 try:
@@ -20,10 +21,6 @@ with one keystroke. Write to Google docs directly.
 
 """
 
-
-
-
-        
 
 def init_optparse():
     """ read options from commandline
@@ -129,13 +126,19 @@ class GoogleDocLogWriter(LogWriter):
         self.write_to_worksheet(log_item,worksheet)
 
 
-    def open_google_doc(self):
+    def open_google_doc(self):                
         # Login with your Google account
-        gc = gspread.login(self.google_id,self.google_password)
+        json_key = json.load(open('timekeeping-2d5fd018b45d.json'))
+        scope = ['https://spreadsheets.google.com/feeds']
 
-        # Open a worksheet from spreadsheet with one shot
+        credentials = SignedJwtAssertionCredentials(json_key['client_email'], json_key['private_key'], scope)
+        gc = gspread.authorize(credentials)
+
+        # get worksheet
         worksheet = gc.open(self.google_spreadsheet_name).sheet1
         return worksheet
+
+    
 
     def get_next_empty_row(self,worksheet):
         """Find the highest empty row to know where you can write a new entry
