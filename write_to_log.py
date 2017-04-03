@@ -59,10 +59,12 @@ def mainloop(configfile):
         writer = FileLogWriter(filename)            
 
     elif options.destination == "googledoc":        
-        writer = GoogleDocLogWriter(configfile)
-    
-    msg = args[0]
-    writer.write(create_log_item(msg,options))
+        writer = GoogleDocLogWriter(configfile)        
+    if len(args) > 0:
+        msg = args[0]
+        writer.write(create_log_item(msg,options))
+    else:
+        pass
 
 
 
@@ -180,7 +182,7 @@ class LogItem:
 
     
 
-configfile = "D:/code/scripts/timekeeping/write_to_log.cfg"
+configfile = "C:/code/timekeeping/write_to_log.cfg"
 mainloop(configfile)
     
     
